@@ -11,9 +11,13 @@ The time zone ID for the automatically generated tenants.
 For example `America/New_York`.
 This defaults to the system default Zone ID.
 
-The OpenShift docker image also supports these parameters:
+The following system properties enable the database configuration:
 
-* *org.optaweb.employeerostering.persistence.datasource*
-* *org.optaweb.employeerostering.persistence.dialect*
-* *org.optaweb.employeerostering.persistence.hbm2ddl.auto*
+* *org.optaweb.employeerostering.persistence.datasource* default value: `java:jboss/datasources/ExampleDS`
+* *org.optaweb.employeerostering.persistence.dialect* default value: `org.hibernate.dialect.H2Dialect`
+* *org.optaweb.employeerostering.persistence.hbm2ddl.auto* default value: `create`
 * *org.optaweb.employeerostering.persistence.id.generator*
+
+By default, it configured to use `ExampleDS` that it supposed to be an H2 DBMS.
+
+The OpenShift image exposes this configuration through the environment variables.

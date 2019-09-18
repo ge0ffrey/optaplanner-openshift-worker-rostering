@@ -1,0 +1,236 @@
+[[projectstructure]]
+= Project Structure
+:doctype: book
+:imagesdir: ..
+:sectnums:
+:toc: left
+:icons: font
+:experimental:
+
+The project is structured in the following folders:
+
+* *employee-rostering-benchmark* solution benchmark
+* *employee-rostering-distribution* assembly logic for the deployment assets
+* *employee-rostering-docs* this documentation
+* *employee-rostering-gwtui* the user interface implemented with Google Web Toolkit (GWT)
+* *employee-rostering-restclient* rest client for the specific domain model
+* *employee-rostering-server* rest server main implementation, solver configuration and scoring rules definition
+* *employee-rostering-shared* the core of the planning domain model and its RESTFull representation
+* *employee-rostering-shared-gwt* support project for GWT
+* *employee-rostering-webapp* the web application structure and configuration
+
+== Domain Model
+
+The domain model is the most important piece of a project based on OptaPlanner. A careful design simplifies the constraint definition. The classes of the domain model are placed in the *employee-rostering-shared* folder in the java package `org.optaweb.employeerostering.shared`.
+
+The most important classes to understand the domain model are:
+
+* *Shift* is the _planning entity_, where is the defined the relationship with the _planning variable_ employee. Other important fields: `spot`, `rotationEmployee`, `startDateTime`, `endDateTime`.
+* *Employee* is the _planning variable_, it's identified by the `name` and has a set of skills (`skillProficiencySet`).
+* *Roster* is the _planning solution_, `employeeList` is the list of employees (the range of values that can be assigned to the _planning variable_), the field `score` holds the score (3 levels: hard, medium, soft), the other problem facts are: `skillList`, `spotList`, `employeeAvailabilityList`, `rosterParametrization`, `rosterState`, `shiftList`.
+
+== Constraints
+
+The constraints are defined in the *employee-rostering-server* folder, where is the implementation of the back end REST service.
+
+*Worth noting:*
+
+* The solver configuration file:
+`employee-rostering-server/src/main/resources/org/optaweb/employeerostering/server/solver/employeeRosteringSolverConfig.xml`
+  Where are listed the classes of the Domain Model.
+* The constraints definition file: `employee-rostering-server/src/main/resources/org/optaweb/employeerostering/server/solver/employeeRosteringScoreRules.drl`
+
+=== Constraint definition
+
+The constraints are defined using the DRL language. See: https://docs.optaplanner.org/7.20.0.Final/optaplanner-docs/html_single/index.html#implementingAScoreRule[Implementing a score rule].
+
+==== Hard Constraints
+
+*Required skill for a shift*
+
+[source,ruby]
+----
+rule "Required skill for a shift"
+    when
+        Shift(
+                employee != null,
+                !getEmployee().hasSkills(getSpot().getRequiredSkillSet()))
+    then
+        scoreHolder.addHardConstraintMatch(kcontext, -100);
+end
+----
+
+Condition: there is a shift with an assigned employee that has NOT the skill set required by the spot.
+
+Action: the hard score is decreased of 100 units.
+
+*Unavailable time slot for an employee*
+
+[source,ruby]
+----
+rule "Unavailable time slot for an employee"
+    when
+        EmployeeAvailability(
+                state == EmployeeAvailabilityState.UNAVAILABLE,
+                $e : employee,
+                $startDateTime : startDateTime,
+                $endDateTime : endDateTime)
+        Shift(
+                employee == $e,
+                GwtJavaTimeWorkaroundUtil.doTimeslotsIntersect($startDateTime,$endDateTime,
+                                                   startDateTime, endDateTime))
+    then
+        scoreHolder.addHardConstraintMatch(kcontext, -50);
+end
+----
+
+Condition: Given an employee unavailability, there is a shift for this employee, the date time interval of the shift intersects the date time interval of the unavailability. 
+
+Action: The hard score is decreased of 50 units.
+
+TIP: Sometime, it's easier and more clean encapsulate a complex logic in an utility class. In this case, _GwtJavaTimeWorkaroundUtil_ evaluates the time slots intersection.
+
+*At most one shift assignment per day per employee*
+
+[source,ruby]
+----
+rule "At most one shift assignment per day per employee"
+    when
+        $s : Shift(
+                employee != null,
+                $e : employee,
+                $leftDay : startDateTime.toLocalDate())
+        Shift(
+                employee == $e,
+                startDateTime.toLocalDate() == $leftDay,
+                this != $s)
+    then
+        scoreHolder.addHardConstraintMatch(kcontext, -10);
+end
+----
+
+Condition: There are two shifts assigned to the same employee, the start date of one shift is equal to the start date of the other shift.
+
+Action: The hard score is decreased of 10 units.
+
+WARNING: This rule triggers for any combination of shifts for each employee. So considering `n` employee and `m` shifts, it triggers `n*m^2`. Luckily, the rules triggers just for shifts that impacted by a change.
+
+*No 2 shifts within 10 hours from each other*
+
+[source,ruby]
+----
+rule "No 2 shifts within 10 hours from each other"
+    when
+        $s : Shift(
+                employee != null,
+                $e : employee,
+                $leftEndDateTime : endDateTime)
+        Shift(
+                employee == $e,
+                $leftEndDateTime <= endDateTime,
+                $leftEndDateTime.until(startDateTime, ChronoUnit.HOURS) < 10,
+                this != $s)
+    then
+        scoreHolder.addHardConstraintMatch(kcontext, -1);
+end
+----
+
+Condition: There are two shifts assigned to the same employee, the end time of the _left_ shift is prior of the other end time, the time difference between the end time of the _left_ shift and the start time of the other is less of 10 hours.
+
+Action: The hard score is decreased of 1 units.
+
+==== Medium Constraints
+
+*Assign every shift*
+
+[source,ruby]
+----
+rule "Assign every shift"
+    when
+        Shift(employee == null)
+    then
+        scoreHolder.addMediumConstraintMatch(kcontext, -1);
+end
+----
+
+Condition: There is a shift with no employee assigned.
+
+Action: The medium score is decreased of 1 units.
+
+==== Soft Constraints
+
+*Undesired time slot for an employee*
+
+[source,ruby]
+----
+rule "Undesired time slot for an employee"
+    when
+    	$rosterParametrization : RosterParametrization(undesiredTimeSlotWeight != 0)
+        EmployeeAvailability(
+                state == EmployeeAvailabilityState.UNDESIRED,
+                $e : employee,
+                $startDateTime : startDateTime,
+                $endDateTime : endDateTime)
+        Shift(
+                employee == $e,
+                GwtJavaTimeWorkaroundUtil.doTimeslotsIntersect($startDateTime,$endDateTime,
+                                                   startDateTime, endDateTime))
+    then
+        scoreHolder.addSoftConstraintMatch(kcontext, -$rosterParametrization.getUndesiredTimeSlotWeight());
+end
+----
+
+TIP: The first line of the `when` clause is a technique to dynamically change the weight of the constraint. If `undesiredTimeSlotWeight` is 0 the constraint is disregarded.
+
+Condition: Given an employee undesired date and time slot, there is a shift for this employee such that the date and time interval of the shift intersects the undesired date and time slot. 
+
+Action: The soft score is decreased of _undesiredTimeSlotWeight_ units.
+
+*Desired time slot for an employee*
+
+[source,ruby]
+----
+rule "Desired time slot for an employee"
+    when
+        $rosterParametrization : RosterParametrization(desiredTimeSlotWeight != 0)
+        EmployeeAvailability(
+                state == EmployeeAvailabilityState.DESIRED,
+                $e : employee,
+                $startDateTime : startDateTime,
+                $endDateTime : endDateTime)
+        Shift(
+                employee == $e,
+                GwtJavaTimeWorkaroundUtil.doTimeslotsIntersect($startDateTime,$endDateTime,
+                                                   startDateTime, endDateTime))
+    then
+        scoreHolder.addSoftConstraintMatch(kcontext, +$rosterParametrization.getDesiredTimeSlotWeight());
+end
+----
+
+TIP: The first line of the `when` clause is a technique to dynamically change the weight of the constraint. If `desiredTimeSlotWeight` is 0 the constraint is disregarded.
+
+Condition:  Given an employee desired date and time slot, there is a shift for this employee such that the date and time interval of the shift intersects the desired date and time slot. 
+
+Action: The soft score is increased of _desiredTimeSlotWeight_ units.
+
+*Employee is not rotation employee*
+
+[source,ruby]
+----
+rule "Employee is not rotation employee"
+    when
+    	$rosterParametrization : RosterParametrization(rotationEmployeeMatchWeight != 0)
+        Shift(  
+                rotationEmployee != null, employee != null, employee != rotationEmployee)
+    then
+        scoreHolder.addSoftConstraintMatch(kcontext, -$rosterParametrization.getRotationEmployeeMatchWeight());
+end
+----
+
+TIP: The first line of the `when` clause is a technique to dynamically change the weight of the constraint. If `rotationEmployeeMatchWeight` is 0 the constraint is disregarded.
+
+IMPORTANT: In general, employees desire to work following a regular schedule: a rotation plan. This represents a starting point for the actual schedule that is influence by other factors (e.g. temporary unavailability). For this reason, all Shifts are initialized with the `rotationEmployee`.
+
+Condition: There a shift that is assigned to an employee which is not the rotation employee.
+
+Action: The soft score is decreased of _rotationEmployeeMatchWeight_ units.
