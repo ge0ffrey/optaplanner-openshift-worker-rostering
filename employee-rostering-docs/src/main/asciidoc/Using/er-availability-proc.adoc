@@ -1,0 +1,25 @@
+[id='er-availability-proc']
+= Setting employee availability
+
+You can set the availability of employees for particular time spans. 
+
+If an employee is _unavailable_ for a particular time span, the employee can never be assigned to any shift during this time span (for example, if the employee has called in sick or is on vacation). _Undesired_ and _desired_ are employee preferences for particular time spans; the application accommodates them when possible.
+
+.Procedure
+. To view and edit employee availability, click the *Availability Roster* tab.
++
+In the top left part of the window, you can see the dates for which the roster is displayed. To view other weeks, you can use the *<* and *>* buttons next to the *Week of* field. Alternatively, you can click the date field and change the date to view the week that includes this date.
++
+You can see the numbers of currently visible employees in the top right part of the browser window, for example, `1-10 of 34`. You can use the *<* and *>* buttons next to the numbers to display other employees in the list. 
++
+. To create an availability entry for an employee, click empty space on the intersection of a date (column) and an employee (row). Initially, an `Unavailable` entry for the entire day is created.
+. To change an availability entry, double-click the entry. You can change the following settings:
+** *From* and *To* date and time: The time span to which the availability entry applies.
+** Status: you can select *Unavailable*, *Desired*, or *Undesired* status from a drop-down list.
++
+To save the entry, click *Apply*.
+. To delete an availability entry, double-click the entry, then click *Delete availability*.
+
+IMPORTANT: If an employee is already assigned to a shift and then you create or change an availability entry during this shift, the assignment is not changed automatically. You must create the employee roster again to apply new or changed availability entries.  
+
+

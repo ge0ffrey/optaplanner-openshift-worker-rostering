@@ -1,0 +1,26 @@
+[id='er-shiftroster-proc']
+= Viewing and editing shifts in the shift roster
+
+The Shift Roster is a table of all spots and all possible time spans. 
+
+If an employee must be present in a spot during a time span, a _shift_ must exist for this spot and this time span. If a spot requires several employees at the same time, you can create several shifts for the same spot and time span.
+
+Each shift is represented by a rectangle at the intersection of a spot (row) and time span (column).
+
+When new time is added to the draft period, the application copies the shifts (and default employees, if present) from the rotation pattern into this new part of the draft period. You can also manually add and edit shifts in the draft period. 
+
+.Procedure
+. To view and edit the shift roster, click the *Shift Roster* tab.
++
+In the top left part of the window, you can see the dates for which the roster is displayed. To view other weeks, you can use the *<* and *>* buttons next to the *Week of* field. Alternatively, you can click the date field and change the date to view the week that includes this date.
++
+You can see the numbers of currently visible spots in the top right part of the browser window, for example, `1-10 of 34`. You can use the *<* and *>* buttons next to the numbers to display other spots in the list. 
++
+. To add a shift, click an open area of the schedule. The application adds a shift, determining the slot and time span automatically from the location of the click.
+. To edit a shift, click the shift. You can set the following values for a shift:
+** *From* and *To* date and time: The exact time and duration of the shift.
+** *Employee*: The employee assigned to the shift.
+** *Pinned*: Whether the employee is _pinned_ to the shift. If an employee is pinned, automatic employee rostering cannot change the assignment of the employee to the shift. A pinned employee is not automatically replicated to any other shift.
++
+To save the changes, click *Apply*.
+. To delete a shift, click the shift, and then click *Delete shift*.

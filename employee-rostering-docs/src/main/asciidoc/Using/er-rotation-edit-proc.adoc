@@ -1,0 +1,14 @@
+[id='er-rotation-edit-proc']
+= Viewing and editing the rotation pattern
+
+The rotation pattern contains shifts that are automatically replicated for every period. For details about the rotation pattern, see <<er-rotation-con>>.
+
+You can view the rotation pattern, add, move, and delete shifts.
+
+.Procedure
+. To view and edit the rotation pattern, click the *Rotation* tab. 
+. To view additional days of the rotation pattern, use the horizontal scroll bar at the bottom of the browser window.
+. To add a shift, click an empty area of the table. The application adds a shift, determining the slot and time span automatically from the location of the click.
+. To change the start or end time of a shift, move the mouse pointer to the left or right border of the box representing the shift and drag the border.
+. To delete a shift, hold the *Shift* key on the keyboard and click a shift.
+ 

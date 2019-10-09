@@ -1,0 +1,12 @@
+[id='er-periods-con']
+= The draft and published periods
+
+At any particular moment, you can use the application to create the roster for a time period called a _draft_ period; by default, the length of a draft period is three weeks. 
+
+When the roster is final for the first week of the draft period, you can _publish_ the roster. At this time, the roster for the first week of the current draft period becomes a _published_ period. Ina published period, the roster is fixed and you can no longer change it automatically (however, emergency manual changes are still possible). This roster can then be distributed to employees so they can plan their time around it. The draft period is shifted a week later.
+
+For example, assume that a draft period of September 1 to September 21 is set. You can automatically create the employee roster for this period. Then, when you publish the roster, the period up to September 7 becomes published. The new draft period is September 8 to September 28.
+ 
+For instructions about publishing the roster, see <<er-publish-proc>>.
+ 
+ 

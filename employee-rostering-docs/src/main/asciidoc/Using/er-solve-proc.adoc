@@ -1,0 +1,25 @@
+[id='er-solve-proc']
+= Creating and viewing the employee shift roster
+
+You can use the application to create and view the optimal shift roster for all employees.
+
+.Procedure
+. To view and edit the shift roster, click the *Shift Roster* tab.
+. To create the optimal shift roster, click *Solve*. The application takes 30 seconds to find the optimal solution. 
+
+.Result
+When the operation is finished, the Shift Roster view contains the optimal shift roster. The new roster is created for the draft period; the operation does not modify the published periods.
+
+In the top left part of the window, you can see the dates for which the roster is displayed. To view other weeks, you can use the *<* and *>* buttons next to the *Week of* field. Alternatively, you can click the date field and change the date to view the week that includes this date.
+
+You can see the numbers of currently visible spots in the top right part of the browser window, for example, `1-10 of 34`. You can use the *<* and *>* buttons next to the numbers to display other spots in the list. 
+
+In the draft period, the borders of boxes that represent shifts are dotted lines. In the published periods, the borders are unbroken lines.
+
+The color of the boxes that represent shifts shows the constraint status of every shift:
+
+* Strong green: Soft constraint matched; for example, the shift is in a "desired" timeslot for the employee.
+* Pale green: No constraint broken.
+* Grey: Soft constraint broken; for example, the shift is in an "undesired" timeslot for the employee.
+* Yellow: Medium constraint broken; for example, no employee is assigned to the shift.
+* Red: Hard constraint broken; for example, an employee has two shifts at the same time.

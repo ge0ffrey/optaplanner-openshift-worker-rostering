@@ -1,0 +1,19 @@
+[id='er-skills-proc']
+= Entering skills
+
+You can set all _skills_ that can be necessary in any position within the roster. For example, a 24-hour diner can require cooking, serving, bussing, and hosting skills, in addition to skills such as general human resources and restaurant operations.
+
+.Procedure
+
+. To enter or change skills, click the *Skills* tab.
++
+You can see the numbers of currently visible skills in the top right part of the browser window, for example, `1-15 of 34`. You can use the *<* and *>* buttons to display other skills in the list. 
++
+. Complete the following steps to add a new skill:
+.. Click *Add Skill*.
+.. Enter the name of the new skill into the text field under *Skill name*.
+.. Click *Save Skill*.
+. To edit the name of a skill, click the *Edit Skill* icon (pencil shape) next to the skill.
+. To delete a skill, click the *Delete Skill* icon (trashcan shape) next to the skill.
+
+NOTE: Within each tenant, skill names must be unique. You cannot delete a skill if the skill is  associated with an employee or spot.

@@ -21,3 +21,4 @@ endif::[]
 
 include::Introduction/Introduction-chapter.adoc[leveloffset=+1]
 include::Architecture/Architecture-section.adoc[leveloffset=+1]
+include::Using/er-using-assy.adoc[leveloffset=+1]

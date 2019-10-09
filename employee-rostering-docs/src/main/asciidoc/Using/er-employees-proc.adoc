@@ -1,0 +1,20 @@
+[id='er-employees-proc']
+= Entering the list of employees
+
+You must enter the list of all employees of the business and the skills they possess. The application rosters these employees to spots according to their skills.
+
+.Procedure
+
+. To enter or change the list of employees, click the *Spots* tab.
++
+You can see the numbers of currently visible employees in the top right part of the browser window, for example, `1-15 of 34`. You can use the *<* and *>* buttons to display other employees in the list. 
++
+. Complete the following steps to add a new employee:
+.. Click *Add Employee*.
+.. Enter the name of the employee into the text field under *Employee name*.
+.. Optionally, select one or more skills from the drop-down list under *Skill set*.
+.. Click *Save Employee*.
+. To edit the name and required skills for a spot, click the *Edit Employee* icon (pencil shape) next to the name of the employee.
+. To delete a spot, click the *Delete Employee* icon (trashcan shape) next to the name of the employeeemployee.
+
+NOTE: Within each tenant, employee names must be unique. You cannot delete employees if they are rostered to any shifts.

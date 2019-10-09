@@ -1,0 +1,20 @@
+[id='er-rotation-con']
+= The rotation pattern
+
+The employee rostering application supports a _rotation pattern_ for shifts and employees. 
+
+The rotation pattern is a "model" period of any time starting from two days. The pattern is not tied to a particular date. 
+
+You can set the shift times for every day of the rotation. Optionally, the names of the default employees for each shift in each day can also be set.
+
+NOTE: In the current version, you cannot enter the names of employees in the rotation period. However, you can see the operation of rotation periods with default employees in the example tenants.
+
+When you publish the roster, the application adds a new week to the draft period. At this time, the shifts and, if applicable, default employee names are copied from the rotation pattern to the new part of the draft period.
+
+When the end of the rotation pattern is reached, it is automatically restarted from the beginning.
+
+If weekend shift patterns in your environment are different from weekday shift patterns, use a rotation pattern of one week or a whole number of weeks (for example, 14, 12, or 28 days; the default length is 28 days). Then the pattern is always repeated on the same weekdays and you can set the shifts for different weekdays.
+
+NOTE: In the current version, you have to set every single shift manually. To save time when setting up initial data, use a shorter rotation pattern, for example, 7 days. 
+
+For instructions about editing the rotation pattern, see <<er-rotation-edit-proc>>.

@@ -1,0 +1,7 @@
+[id='er-tenants-con']
+= Selecting or creating a tenant 
+
+The application supports multiple _tenants_. Each tenant is a completely independent set of data, including inputs and roster outputs. Changing data for one tenant does not affect other tenants. You can switch between tenants to use several independent data sets, for example, to prepare employee rosters for different locations.
+
+Several sample tenants are present after installation, representing several typical enterprise types such as a factory or hospital. You can select any of these tenants and modify them to suit your needs. You can also create a new tenant to enter data from a blank slate.
+

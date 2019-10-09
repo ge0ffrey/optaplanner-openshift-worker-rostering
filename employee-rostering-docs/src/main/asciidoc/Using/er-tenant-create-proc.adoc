@@ -1,0 +1,27 @@
+[id='er-tenant-create-proc']
+= Creating a tenant
+
+You can create a new tenant to enter data from a blank slate. When creating a tenant, you can set several parameters that determine how the application prepares the output for this tenant.
+
+IMPORTANT: You cannot change tenant parameters after you create the tenant.
+
+.Procedure
+
+. In the top right part of the browser window, click the *Admin* tab.
+
+. Click *Add Tenant*.
+
+. Set the following values:
+** *Name*: The name of the new tenant. This name is displayed in the list of tenants.
+** *Schedule Start Date*: The start date of the initial draft period. After you publish the roster, this date becomes the start date of the published period. The weekday of this date always remains the weekday that starts the draft period, any particular published period, and the first use of the rotation pattern. So it is usually most convenient to set the start date to the start of a week (Sunday or Monday).
+** *Draft Length (days)*: The length of the draft period. The draft period stays the same length for the lifetime of the tenant.
+** *Publish Notice (days)*: The length of the publish notice period. Aspire to publish the final roster for any day at least this time in advance, so employees have enough notice to plan their personal life around their shift times. In the current version, this setting is not enforced in any way.
+** *Publish Length (days)*: The length of the period that becomes published (fixed) every time you publish the roster. In the current version, this setting is fixed at 7 days.
+** *Rotation Length (days)*: The length of the rotation pattern.
+** *Timezone*: The timezone of the environment to which the roster applies. This timezone is used to determine the "current" date for user interface display.
++
+. Click *Save*.
+
+The tenant is created with blank data.
+ 
+

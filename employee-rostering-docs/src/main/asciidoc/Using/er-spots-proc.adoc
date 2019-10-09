@@ -1,0 +1,22 @@
+[id='er-spots-proc']
+= Entering spots
+
+You must enter the list of _spots_, which represent various positions at the business. For a diner, spots include the bar, the bussing stations, the front counter, the various kitchen stations, the serving areas, and the office. 
+
+For each spot, you can select one or more required skills from the list that you entered in the *Skills* tab. The application rosters only employees that have all of the required skills for a spot into that spot. If the spot has no required skill, the application can roster any employee into the spot.
+
+.Procedure
+
+. To enter or change spots, click the *Spots* tab.
++
+You can see the numbers of currently visible spots in the top right part of the browser window, for example, `1-15 of 34`. You can use the *<* and *>* buttons to display other spots in the list. 
++
+. Complete the following steps to add a new spot:
+.. Click *Add Spot*.
+.. Enter the name of the new spot into the text field under *Spot name*.
+.. Optionally, select one or more skills from the drop-down list under *Required skill set*.
+.. Click *Save Spot*.
+. To edit the name and required skills for a spot, click the *Edit Spot* icon (pencil shape) next to the spot.
+. To delete a spot, click the *Delete Spot* icon (trashcan shape) next to the spot.
+
+NOTE: Within each tenant, spot names must be unique. You cannot delete a spot when any shifts are created for it.

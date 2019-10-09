@@ -1,0 +1,19 @@
+[id='er-using-con']
+= Using the employee rostering starter application
+
+You can use the Web interface to use the employee rostering starter application. The interface is developed using the GWT toolkit. You can also access the REST API to create a custom user interface as necessary.
+
+include::er-periods-con.adoc[leveloffset=+1]
+include::er-rotation-con.adoc[leveloffset=+1]
+include::er-tenants-con.adoc[leveloffset=+1]
+include::er-tenant-select-proc.adoc[leveloffset=+2]
+include::er-tenant-create-proc.adoc[leveloffset=+2]
+include::er-skills-proc.adoc[leveloffset=+1]
+include::er-spots-proc.adoc[leveloffset=+1]
+include::er-employees-proc.adoc[leveloffset=+1]
+include::er-availability-proc.adoc[leveloffset=+1]
+include::er-shiftroster-proc.adoc[leveloffset=+1]
+include::er-solve-proc.adoc[leveloffset=+1]
+include::er-individualroster-proc.adoc[leveloffset=+1]
+include::er-publish-proc.adoc[leveloffset=+1]
+include::er-rotation-edit-proc.adoc[leveloffset=+1]
