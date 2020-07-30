@@ -27,6 +27,7 @@ import { useTranslation, Trans } from 'react-i18next';
 import Actions from 'ui/components/Actions';
 import { getRouterProps } from 'util/BookmarkableTestUtils';
 import Schedule from 'ui/components/calendar/Schedule';
+import { EditIcon, TrashIcon } from '@patternfly/react-icons';
 import {
   AvailabilityRosterPage, Props, ShiftOrAvailability, isShift, isAvailability,
   isAllDayAvailability, isDay, AvailabilityRosterUrlProps,
@@ -521,6 +522,71 @@ describe('Availability Roster Page', () => {
     expect(isDay(moment('2018-07-01T00:00').toDate(), moment('2018-07-02T09:00').toDate())).toEqual(false);
     expect(isDay(moment('2018-07-01T00:00').toDate(), moment('2018-07-02T00:00').toDate())).toEqual(true);
     expect(isDay(moment('2018-07-01T00:00').toDate(), moment('2018-07-04T00:00').toDate())).toEqual(true);
+  });
+
+  it('should bring up the Edit Shift modal when the edit button is clicked on a shift', () => {
+    const availabilityRosterPage = shallow(<AvailabilityRosterPage {...baseProps} />);
+    const PopoverHeaderComponent: React.FC<ShiftOrAvailability> = availabilityRosterPage
+      .find(Schedule).prop('popoverHeader');
+    const popoverHeader = shallow(<PopoverHeaderComponent {...{
+      type: 'Shift',
+      reference: shift,
+      start: shift.startDateTime,
+      end: shift.endDateTime,
+    }}
+    />);
+    popoverHeader.find(EditIcon).parent().simulate('click');
+    expect(availabilityRosterPage.state('isCreatingOrEditingShift')).toEqual(true);
+    expect(availabilityRosterPage.state('selectedShift')).toEqual(shift);
+  });
+
+  it('should delete the shift when the delete button is clicked on a shift', () => {
+    const availabilityRosterPage = shallow(<AvailabilityRosterPage {...baseProps} />);
+    const PopoverHeaderComponent: React.FC<ShiftOrAvailability> = availabilityRosterPage
+      .find(Schedule).prop('popoverHeader');
+    const popoverHeader = shallow(<PopoverHeaderComponent {...{
+      type: 'Shift',
+      reference: shift,
+      start: shift.startDateTime,
+      end: shift.endDateTime,
+    }}
+    />);
+    popoverHeader.find(TrashIcon).parent().simulate('click');
+    expect(baseProps.updateShift).toBeCalledWith({
+      ...shift,
+      employee: null,
+    });
+  });
+
+  it('should bring up the Edit Availability modal when the edit button is clicked on a availability', () => {
+    const availabilityRosterPage = shallow(<AvailabilityRosterPage {...baseProps} />);
+    const PopoverHeaderComponent: React.FC<ShiftOrAvailability> = availabilityRosterPage
+      .find(Schedule).prop('popoverHeader');
+    const popoverHeader = shallow(<PopoverHeaderComponent {...{
+      type: 'Availability',
+      reference: availability,
+      start: availability.startDateTime,
+      end: availability.endDateTime,
+    }}
+    />);
+    popoverHeader.find(EditIcon).parent().simulate('click');
+    expect(availabilityRosterPage.state('isCreatingOrEditingAvailability')).toEqual(true);
+    expect(availabilityRosterPage.state('selectedAvailability')).toEqual(availability);
+  });
+
+  it('should delete the availability when the delete button is clicked on a availability', () => {
+    const availabilityRosterPage = shallow(<AvailabilityRosterPage {...baseProps} />);
+    const PopoverHeaderComponent: React.FC<ShiftOrAvailability> = availabilityRosterPage
+      .find(Schedule).prop('popoverHeader');
+    const popoverHeader = shallow(<PopoverHeaderComponent {...{
+      type: 'Availability',
+      reference: availability,
+      start: availability.startDateTime,
+      end: availability.endDateTime,
+    }}
+    />);
+    popoverHeader.find(TrashIcon).parent().simulate('click');
+    expect(baseProps.removeEmployeeAvailability).toBeCalledWith(availability);
   });
 });
 

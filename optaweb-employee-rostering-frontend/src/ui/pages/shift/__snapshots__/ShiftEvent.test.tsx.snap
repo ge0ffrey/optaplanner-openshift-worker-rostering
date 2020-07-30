@@ -6647,3 +6647,33 @@ exports[`ShiftEvent should render ShiftPopupHeader correctly 1`] = `
   </Component>
 </span>
 `;
+
+exports[`ShiftEvent should render ShiftPopupHeader correctly without an onCopy function 1`] = `
+<span>
+  <Text>
+    Spot, 9:00 AM-5:00 PM: Employee 1
+  </Text>
+  <Component
+    onClick={[Function]}
+    variant="link"
+  >
+    <EditIcon
+      color="currentColor"
+      noVerticalAlign={false}
+      size="sm"
+      title={null}
+    />
+  </Component>
+  <Component
+    onClick={[Function]}
+    variant="link"
+  >
+    <TrashIcon
+      color="currentColor"
+      noVerticalAlign={false}
+      size="sm"
+      title={null}
+    />
+  </Component>
+</span>
+`;

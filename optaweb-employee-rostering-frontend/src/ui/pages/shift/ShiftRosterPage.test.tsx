@@ -24,6 +24,7 @@ import moment from 'moment-timezone';
 import 'moment/locale/en-ca';
 import color from 'color';
 import { useTranslation, Trans } from 'react-i18next';
+import { BlueprintIcon, EditIcon, TrashIcon } from '@patternfly/react-icons';
 import Actions from 'ui/components/Actions';
 import Schedule from 'ui/components/calendar/Schedule';
 import { getRouterProps } from 'util/BookmarkableTestUtils';
@@ -364,6 +365,36 @@ describe('Shift Roster Page', () => {
         backgroundColor: 'var(--pf-global--BackgroundColor--300)',
       },
     });
+  });
+
+  it('should bring up the Edit Shift modal when the edit button is clicked on a shift', () => {
+    const shiftRosterPage = shallow(<ShiftRosterPage {...baseProps} />);
+    const PopoverHeaderComponent: React.FC<Shift> = shiftRosterPage.find(Schedule).prop('popoverHeader');
+    const popoverHeader = shallow(<PopoverHeaderComponent {...shift} />);
+    popoverHeader.find(EditIcon).parent().simulate('click');
+    expect(shiftRosterPage.state('isCreatingOrEditingShift')).toEqual(true);
+    expect(shiftRosterPage.state('selectedShift')).toEqual(shift);
+  });
+
+  it('should duplicate a shift when the copy button is clicked on a shift', () => {
+    const shiftRosterPage = shallow(<ShiftRosterPage {...baseProps} />);
+    const PopoverHeaderComponent: React.FC<Shift> = shiftRosterPage.find(Schedule).prop('popoverHeader');
+    const popoverHeader = shallow(<PopoverHeaderComponent {...shift} />);
+    popoverHeader.find(BlueprintIcon).parent().simulate('click');
+    expect(baseProps.addShift).toBeCalledWith({
+      ...shift,
+      employee: null,
+      id: undefined,
+      version: undefined,
+    });
+  });
+
+  it('should delete the shift when the delete button is clicked on a shift', () => {
+    const shiftRosterPage = shallow(<ShiftRosterPage {...baseProps} />);
+    const PopoverHeaderComponent: React.FC<Shift> = shiftRosterPage.find(Schedule).prop('popoverHeader');
+    const popoverHeader = shallow(<PopoverHeaderComponent {...shift} />);
+    popoverHeader.find(TrashIcon).parent().simulate('click');
+    expect(baseProps.removeShift).toBeCalledWith(shift);
   });
 });
 

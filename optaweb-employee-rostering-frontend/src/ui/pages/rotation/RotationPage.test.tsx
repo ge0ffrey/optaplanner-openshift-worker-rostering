@@ -25,6 +25,7 @@ import { useTranslation, WithTranslation, Trans } from 'react-i18next';
 import Schedule from 'ui/components/calendar/Schedule';
 import { getRouterProps } from 'util/BookmarkableTestUtils';
 import { Pagination } from '@patternfly/react-core';
+import { BlueprintIcon, EditIcon, TrashIcon } from '@patternfly/react-icons';
 import { RotationPage, Props, RotationPageUrlProps } from './RotationPage';
 
 const baseDate = moment('2018-01-01T00:00').startOf('week').toDate();
@@ -216,6 +217,39 @@ describe('Rotation Page', () => {
       durationBetweenRotationStartAndTemplateStart: moment.duration(168, 'hours'),
       shiftTemplateDuration: moment.duration(8, 'hours'),
     });
+  });
+
+  it('should bring up the Edit Shift Template modal when the edit button is clicked on a shift', () => {
+    const rotationPage = shallow(<RotationPage {...baseProps} />);
+    const PopoverHeaderComponent: React.FC<{ shiftTemplate: ShiftTemplate}> = rotationPage
+      .find(Schedule).prop('popoverHeader');
+    const popoverHeader = shallow(<PopoverHeaderComponent {...{ shiftTemplate }} />);
+    popoverHeader.find(EditIcon).parent().simulate('click');
+    expect(rotationPage.state('isCreatingOrEditingShiftTemplate')).toEqual(true);
+    expect(rotationPage.state('selectedShiftTemplate')).toEqual(shiftTemplate);
+  });
+
+  it('should duplicate a shift template when the copy button is clicked on a shift', () => {
+    const rotationPage = shallow(<RotationPage {...baseProps} />);
+    const PopoverHeaderComponent: React.FC<{ shiftTemplate: ShiftTemplate}> = rotationPage
+      .find(Schedule).prop('popoverHeader');
+    const popoverHeader = shallow(<PopoverHeaderComponent {...{ shiftTemplate }} />);
+    popoverHeader.find(BlueprintIcon).parent().simulate('click');
+    expect(baseProps.addShiftTemplate).toBeCalledWith({
+      ...shiftTemplate,
+      rotationEmployee: null,
+      id: undefined,
+      version: undefined,
+    });
+  });
+
+  it('should delete the shift template when the delete button is clicked on a shift', () => {
+    const rotationPage = shallow(<RotationPage {...baseProps} />);
+    const PopoverHeaderComponent: React.FC<{ shiftTemplate: ShiftTemplate}> = rotationPage
+      .find(Schedule).prop('popoverHeader');
+    const popoverHeader = shallow(<PopoverHeaderComponent {...{ shiftTemplate }} />);
+    popoverHeader.find(TrashIcon).parent().simulate('click');
+    expect(baseProps.removeShiftTemplate).toBeCalledWith(shiftTemplate);
   });
 });
 

@@ -13,16 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import { shallow, mount } from 'enzyme';
-import toJson from 'enzyme-to-json';
-import * as React from 'react';
-import { Spot } from 'domain/Spot';
 import { Employee } from 'domain/Employee';
-import { Shift } from 'domain/Shift';
 import { EmployeeAvailability } from 'domain/EmployeeAvailability';
+import { Shift } from 'domain/Shift';
+import { Spot } from 'domain/Spot';
+import { mount, shallow } from 'enzyme';
+import { BlueprintIcon, EditIcon, TrashIcon } from '@patternfly/react-icons';
+import toJson from 'enzyme-to-json';
 import moment from 'moment-timezone';
-import ShiftEvent, * as Indictments from './ShiftEvent';
 import 'moment/locale/en-ca';
+import * as React from 'react';
+import ShiftEvent, * as Indictments from './ShiftEvent';
 
 describe('ShiftEvent', () => {
   it('getRequiredSkillViolations should render correctly', () => {
@@ -225,6 +226,40 @@ describe('ShiftEvent', () => {
       <Indictments.ShiftPopupHeader shift={baseShift} onEdit={jest.fn()} onCopy={jest.fn()} onDelete={jest.fn()} />,
     );
     expect(toJson(shiftEventObj)).toMatchSnapshot();
+  });
+
+  it('should render ShiftPopupHeader correctly without an onCopy function', () => {
+    const shiftEventObj = shallow(
+      <Indictments.ShiftPopupHeader shift={baseShift} onEdit={jest.fn()} onDelete={jest.fn()} />,
+    );
+    expect(toJson(shiftEventObj)).toMatchSnapshot();
+  });
+
+  it('ShiftPopupHeader should call onEdit if onEdit button is clicked', () => {
+    const onEdit = jest.fn();
+    const shiftPopupHeaderObj = shallow(
+      <Indictments.ShiftPopupHeader shift={baseShift} onEdit={onEdit} onCopy={jest.fn()} onDelete={jest.fn()} />,
+    );
+    shiftPopupHeaderObj.find(EditIcon).parent().simulate('click');
+    expect(onEdit).toBeCalledWith(baseShift);
+  });
+
+  it('ShiftPopupHeader should call onCopy if onCopy button is clicked', () => {
+    const onCopy = jest.fn();
+    const shiftPopupHeaderObj = shallow(
+      <Indictments.ShiftPopupHeader shift={baseShift} onEdit={jest.fn()} onCopy={onCopy} onDelete={jest.fn()} />,
+    );
+    shiftPopupHeaderObj.find(BlueprintIcon).parent().simulate('click');
+    expect(onCopy).toBeCalledWith(baseShift);
+  });
+
+  it('ShiftPopupHeader should call onDelete if onDelete button is clicked', () => {
+    const onDelete = jest.fn();
+    const shiftPopupHeaderObj = shallow(
+      <Indictments.ShiftPopupHeader shift={baseShift} onEdit={jest.fn()} onCopy={jest.fn()} onDelete={onDelete} />,
+    );
+    shiftPopupHeaderObj.find(TrashIcon).parent().simulate('click');
+    expect(onDelete).toBeCalledWith(baseShift);
   });
 
   it('should render ShiftPopupBody correctly', () => {
