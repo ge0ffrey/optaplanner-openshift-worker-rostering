@@ -44,7 +44,7 @@ describe('Actions component', () => {
 
   it('clicking on a dropdown should call the action', () => {
     const actionsComponent = shallow(<Actions {...mobileProps} />);
-    actionsComponent.find('Dropdown').simulate('select', { currentTarget: { innerText: 'Action 3' } });
+    actionsComponent.find('Dropdown').simulate('select', { currentTarget: { textContent: 'Action 3' } });
     expect(actions[2].action).toBeCalled();
   });
 });
