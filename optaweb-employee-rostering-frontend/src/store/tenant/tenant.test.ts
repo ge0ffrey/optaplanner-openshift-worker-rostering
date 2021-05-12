@@ -355,12 +355,12 @@ describe('Tenant operations', () => {
     const { store, client } = mockStore(state);
     const initialRosterState: RosterState = {
       publishNotice: 7,
-      firstDraftDate: new Date('2018-01-01'),
+      firstDraftDate: '2018-01-01' as unknown as Date,
       publishLength: 7,
       draftLength: 7,
       unplannedRotationOffset: 0,
       rotationLength: 7,
-      lastHistoricDate: new Date('2018-01-01'),
+      lastHistoricDate: '2018-01-01' as unknown as Date,
       timeZone: 'America/Toronto',
       tenant: {
         name: 'New Tenant',

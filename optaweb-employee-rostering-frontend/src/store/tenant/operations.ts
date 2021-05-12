@@ -15,6 +15,7 @@
  */
 
 import { Tenant } from 'domain/Tenant';
+import moment from 'moment';
 import { ThunkDispatch } from 'redux-thunk';
 import { Action } from 'redux';
 import { rosterOperations } from 'store/roster';
@@ -105,7 +106,11 @@ ThunkCommandFactory<void, RefreshTenantListAction | any> = () => (dispatch, stat
 
 export const addTenant:
 ThunkCommandFactory<RosterState, AddTenantAction | AddAlertAction> = rs => (dispatch, state, client) => (
-  client.post<Tenant>('/tenant/add', rs).then((tenant) => {
+  client.post<Tenant>('/tenant/add', {
+    ...rs,
+    firstDraftDate: moment(rs.firstDraftDate).local(false).format('YYYY-MM-DD'),
+    lastHistoricDate: moment(rs.lastHistoricDate).local(false).format('YYYY-MM-DD'),
+  }).then((tenant) => {
     dispatch(alert.showSuccessMessage('addTenant', { name: tenant.name }));
     dispatch(actions.addTenant(tenant));
   })
