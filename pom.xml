@@ -46,7 +46,7 @@
     <sonar.projectKey>optaweb-employee-rostering</sonar.projectKey>
     <sonar.moduleKey>${project.artifactId}</sonar.moduleKey>
 
-    <version.com.sun.xml.bind>2.3.0.1</version.com.sun.xml.bind>
+    <version.com.sun.xml.bind>2.3.4</version.com.sun.xml.bind>
     <version.frontend-maven-plugin>1.8.0</version.frontend-maven-plugin>
     <version.io.springfox>2.9.2</version.io.springfox>
     <version.javax.activation>1.1.1</version.javax.activation>
